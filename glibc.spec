@@ -23,7 +23,7 @@
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 1.7%{?dist}.3
+Release: 1.7%{?dist}.4
 # GPLv2+ is used in a bunch of programs, LGPLv2+ is used for libraries.
 # Things that are linked directly into dynamically linked programs
 # and shared libraries (e.g. crt files, lib*_nonshared.a) have an additional
@@ -53,6 +53,7 @@ Patch15: glibc-rh641128.patch
 Patch16: glibc-rh642584.patch
 Patch17: glibc-rh643822.patch
 Patch18: glibc-rh645672.patch
+Patch22: glibc-rh646954.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Obsoletes: glibc-profile < 2.4
@@ -281,6 +282,7 @@ package or when debugging this package.
 %patch16 -p1
 %patch17 -p1
 %patch18 -p1
+%patch22 -p1
 
 # A lot of programs still misuse memcpy when they have to use
 # memmove. The memcpy implementation below is not tolerant at
@@ -1066,6 +1068,9 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Fri Dec 10 2010 Andreas Schwab <schwab@redhat.com> - 2.12-1.7.el6_0.4
+- Fix concurrency problem between dl_open and dl_iterate_phdr (#661396)
+
 * Fri Oct 22 2010 Andreas Schwab <schwab@redhat.com> - 2.12-1.7.el6_0.3
 - Require suid bit on audit objects in privileged programs (#645679,
   CVE-2010-3856)
