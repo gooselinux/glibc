@@ -23,7 +23,7 @@
 Summary: The GNU libc libraries
 Name: glibc
 Version: %{glibcversion}
-Release: 1.7%{?dist}.4
+Release: 1.7%{?dist}.5
 # GPLv2+ is used in a bunch of programs, LGPLv2+ is used for libraries.
 # Things that are linked directly into dynamically linked programs
 # and shared libraries (e.g. crt files, lib*_nonshared.a) have an additional
@@ -54,6 +54,9 @@ Patch16: glibc-rh642584.patch
 Patch17: glibc-rh643822.patch
 Patch18: glibc-rh645672.patch
 Patch22: glibc-rh646954.patch
+Patch31: glibc-rh667974.patch
+Patch32: glibc-rh625893.patch
+Patch33: glibc-rh681054.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Obsoletes: glibc-profile < 2.4
@@ -283,6 +286,9 @@ package or when debugging this package.
 %patch17 -p1
 %patch18 -p1
 %patch22 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
 
 # A lot of programs still misuse memcpy when they have to use
 # memmove. The memcpy implementation below is not tolerant at
@@ -1068,6 +1074,13 @@ rm -f *.filelist*
 %endif
 
 %changelog
+* Tue Mar 22 2011 Andreas Schwab <schwab@redhat.com> - 2.12-1.7.el6_0.5
+- Avoid too much stack use in fnmatch (#681054, CVE-2011-1071)
+- Properly quote output of locale (#625893, CVE-2011-1095)
+- Don't leave empty element in rpath when skipping the first element,
+  ignore rpath elements containing non-isolated use of $ORIGIN when
+  privileged (#667974, CVE-2011-0536)
+
 * Fri Dec 10 2010 Andreas Schwab <schwab@redhat.com> - 2.12-1.7.el6_0.4
 - Fix concurrency problem between dl_open and dl_iterate_phdr (#661396)
 
